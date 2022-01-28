@@ -9,11 +9,20 @@ use Symfony\Component\Routing\Annotation\Route;
 class CALPENAController extends AbstractController
 {
     /**
-     * @Route("/c/a/l/p/e/n/a", name="c_a_l_p_e_n_a")
+     * @Route("/calpena", name="calpena")
      */
     public function index(): Response
     {
         return $this->render('calpena/index.html.twig', [
+            'controller_name' => 'CALPENAController',
+        ]);
+    }
+    /**
+     * @Route("/calpena/loginconfirm", name="loginconfirm")
+     */
+    public function loginconfirm(): Response
+    {
+        return $this->render('calpena/loginconfirm.html.twig', [
             'controller_name' => 'CALPENAController',
         ]);
     }
