@@ -46,12 +46,12 @@ class Utilisateurs
 
     public function getLogin(): ?string
     {
-        return $this->login;
+        return $this->Login;
     }
 
-    public function setLogin(string $login): self
+    public function setLogin(string $Login): self
     {
-        $this->login = $login;
+        $this->Login = $Login;
 
         return $this;
     }

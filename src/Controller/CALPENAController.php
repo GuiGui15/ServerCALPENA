@@ -6,6 +6,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
+use Doctrine\ORM\EntityManagerInterface;
+use App\Entity\Utilisateurs;
 
 class CALPENAController extends AbstractController
 {
@@ -21,18 +23,53 @@ class CALPENAController extends AbstractController
     /**
      * @Route("/calpena/loginconfirm", name="loginconfirm")
      */
-    public function loginconfirm(request $request): Response
+    public function loginconfirm(request $request, EntityManagerInterface $manager): Response
     {   
         $Login = $request -> request -> get("Login");
         $password = $request -> request -> get("Password");
-        if (($Login=="root") && ($password=="toor")){
-            $reponse = "acces autorise";
+        $reponse = $manager -> getRepository(Utilisateurs :: class) -> findOneBy([ 'login' => $Login]);
+        if ($reponse == NULL){
+            $repons ="L'utilisateur est pas connu de la base de données";
              } 
-             else{
-                 $reponse = "erreur";
+        else{
+             $code = $reponse -> getPassword();
+             if ($code == $password){
+                 $repons = "Acces autorisé";
+             }else {
+                $repons = "Acces non autorisé, le mdp n'est pas valide";
+             }
+             
              }
         return $this->render('calpena/loginconfirm.html.twig', [
-            'Message' => $reponse,
+            'Message' => $repons,
         ]);
+    }
+
+    /**
+     * @Route("/calpena/formulaireUsers.html.twig", name="formUsers")
+     */
+    public function formuser(Request $request,EntityManagerInterface $manager): Response
+    {
+     
+
+        return $this->render('calpena/formulaireUsers.html.twig', [
+            'controller_name' => 'CALPENAController',
+        ]);
+    }
+
+     /**
+     * @Route("/calpena/AddUsers", name="Addusers")
+     */
+    public function adduser(Request $request,EntityManagerInterface $manager): Response
+    {
+        $Login = $request -> request -> get("Login");
+        $Password = $request -> request -> get("Password");
+        $monUtilisateurs = new Utilisateurs();
+        $monUtilisateurs -> setLogin($Login);
+        $monUtilisateurs -> setPassword($Password);
+        $manager -> persist($monUtilisateur);
+        $manager -> flush ();
+
+        return $this->redirectToRoute ('formulaireUsers');
     }
 }
