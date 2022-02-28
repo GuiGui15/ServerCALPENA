@@ -1,0 +1,18 @@
+<table> 
+    <thead> 
+        <th>Login</th><th>Mot de passe</th><th>Supprimer</th>
+    </thead>
+    <tbody> 
+        {% for un_utilisateur in lst_utilisateurs %}
+        <tr><td>
+            {{ un_utilisateur.Nom }} 
+        </td><td>
+            {{un_utilisateur.code}}
+        </td><td>
+            <form action="/serveur/ajoututilisateur" method="POST">
+                <a href="/supprimerUtilisateur/{{ un_utilisateur.id }}" target="_blank"> <input type="button" class="btn btn-danger" value="Supprimer"> </a>
+            </form>
+        </td></tr>
+        {% endfor %}
+    </tbody>
+</table>
