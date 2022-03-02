@@ -27,13 +27,13 @@ class CALPENAController extends AbstractController
     {   
         $Login = $request -> request -> get("Login");
         $password = $request -> request -> get("Password");
-        $reponse = $manager -> getRepository(Utilisateurs :: class) -> findOneBy([ 'login' => $Login]);
+        $reponse = $manager -> getRepository(Utilisateurs :: class) -> findOneBy([ 'Login' => $Login]);
         if ($reponse == NULL){
             $repons ="L'utilisateur est pas connu de la base de données";
              } 
         else{
              $code = $reponse -> getPassword();
-             if ($code == $password){
+             if (password_verify($password,$code)){
                  $repons = "Acces autorisé";
              }else {
                 $repons = "Acces non autorisé, le mdp n'est pas valide";
@@ -47,9 +47,9 @@ class CALPENAController extends AbstractController
     }
 
     /**
-     * @Route("/calpena/formulaireUsers.html.twig", name="formUsers")
+     * @Route("/calpena/formulaireUsers", name="formUsers")
      */
-    public function formuser(Request $request,EntityManagerInterface $manager): Response
+    public function formuser(): Response
     {
      
 
@@ -65,12 +65,13 @@ class CALPENAController extends AbstractController
     {
         $Login = $request -> request -> get("Login");
         $Password = $request -> request -> get("Password");
+        $Password = (password_hash($Password, PASSWORD_DEFAULT));
         $monUtilisateurs = new Utilisateurs();
         $monUtilisateurs -> setLogin($Login);
         $monUtilisateurs -> setPassword($Password);
-        $manager -> persist($monUtilisateur);
-        $manager -> flush ();
+        $manager -> persist($monUtilisateurs);
+        $manager -> flush();
 
-        return $this->redirectToRoute ('formulaireUsers');
+        return $this->redirectToRoute ('formUsers');
     }
 }
