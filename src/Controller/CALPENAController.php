@@ -74,4 +74,14 @@ class CALPENAController extends AbstractController
 
         return $this->redirectToRoute ('formUsers');
     }
+
+    /**
+     * @Route("/calpena/table", name="table")
+     */
+    public function afficheuser(Request $request,EntityManagerInterface $manager): Response
+    {
+        $mesUtilisateurs=$manager->getRepository(Utilisateurs::class)->findAll();
+        return $this->render('/calpena/table.html.twig',['lst_utilisateurs' => $mesUtilisateurs]);
+        
+    }
 }

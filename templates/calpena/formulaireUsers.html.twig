@@ -3,18 +3,21 @@
 
 {% block body %}
 
+<center><h2>Ce formulaire a pour but d'inscrire un nouvel utilisateur dans la base de données</h2></center>
+
 <form method="post" action="/calpena/AddUsers">
 <p>
   <fieldset>
     <div class="form-group">
       <label class="form-label mt-4">Login</label>
-      <input type="text" name="Login" id="Login" placeholder="Entrez le login de l'utilisateur">
+      <input type="text" name="Login" id="Login" placeholder="Utilisateur">
     </div>
     <div class="form-group">
       <label class="form-label mt-4">Password</label>
-      <input type="password" name="Password" id="Password" placeholder="Entrez le password pour l'utilisateur">
+      <input type="password" name="Password" id="Password" placeholder="Mot de passe">
     </div>
     <br>
-    <button "type="button" class="btn btn-outline-info">SUbmit</button>
+    <button "type="button" class="btn btn-outline-info">Créer</button>
 </form>
+<a class="btn btn-outline-info" href="/calpena/table">Table Utilisateur</a>
 {% endblock %}
